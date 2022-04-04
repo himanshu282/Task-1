@@ -13,7 +13,8 @@
         android:theme="@style/Theme.ImageAPI">
         <activity
             android:name=".ImageDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

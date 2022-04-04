@@ -31,6 +31,7 @@ class ImageDetailActivity : AppCompatActivity() {
             Log.d("aya", "onCreate: $it")
         })
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 }
