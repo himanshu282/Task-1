@@ -21,7 +21,6 @@ class MainViewModel(private val repository: ImagesRepository) : ViewModel() {
     }
 
 
-
     val images : LiveData<ArrayList<ImagesItem>>
     get() = repository.images
 

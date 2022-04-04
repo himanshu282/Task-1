@@ -20,9 +20,8 @@ class ImagesRepository(private val imagesApiInterface: ImagesApiInterface) {
         }
     }
 
-    private val infoLiveData = MutableLiveData<DetailedImageInfo>()
-    val info : LiveData<DetailedImageInfo>
-    get() = infoLiveData
+     val infoLiveData = MutableLiveData<DetailedImageInfo>()
+
 
     suspend fun getInfo(id : String){
         val response = imagesApiInterface.getInfo(id)

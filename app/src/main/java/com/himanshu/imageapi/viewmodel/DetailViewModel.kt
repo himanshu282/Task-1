@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class DetailViewModel(private val repository: ImagesRepository,var id: String) : ViewModel() {
 
     init {
-        Log.d("idDedo", "$id ")
-        loadDetails(id)
+        Log.d("id", "$id ")
+//        loadDetails(id)
     }
     fun loadDetails(id: String){
         viewModelScope.launch {
@@ -22,5 +22,5 @@ class DetailViewModel(private val repository: ImagesRepository,var id: String) :
     }
 
     val detail : LiveData<DetailedImageInfo>
-    get() = repository.info
+    get() = repository.infoLiveData
 }
