@@ -1,14 +1,12 @@
 package com.himanshu.imageapi
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +21,12 @@ import com.himanshu.imageapi.viewmodel.MainViewModelFactory
 class MainActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
     private lateinit var newRecyclerView: RecyclerView
-    lateinit var recyclerViewAdapter: RecyclerViewAdapter
+    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private var isLoading: Boolean = true
     private lateinit var layoutManager : LinearLayoutManager
     lateinit var progressBar : ProgressBar
+    private var timeoutHandler: Handler? = null
+    private var interactionTimeoutRunnable: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,29 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        timeoutHandler =  Handler()
+        interactionTimeoutRunnable =  Runnable {
+            Toast.makeText(this,"User is inactive since 5 seconds",Toast.LENGTH_SHORT).show()
+        }
+        startHandler()
     }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        stopHandler()
+        startHandler()
+
+    }
+
+    private fun stopHandler() {
+        timeoutHandler?.removeCallbacks(interactionTimeoutRunnable!!)
+    }
+
+
+    private fun startHandler() {
+        timeoutHandler?.postDelayed(interactionTimeoutRunnable!!, 5000)
+    }
+
 
     private fun initRecyclerView(){
         newRecyclerView= findViewById(R.id.recycler_view)
@@ -68,6 +90,13 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
+                val secondLastItem = layoutManager.findLastCompletelyVisibleItemPosition()-1
+                Log.d("last", "onScrollStateChanged: $lastItem $secondLastItem")
             }
         })
     }

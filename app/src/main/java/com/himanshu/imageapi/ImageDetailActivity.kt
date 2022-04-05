@@ -1,7 +1,6 @@
 package com.himanshu.imageapi
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +15,9 @@ import com.himanshu.imageapi.viewmodel.DetailViewModelFactory
 
 
 class ImageDetailActivity : AppCompatActivity() {
-    lateinit var detailViewModel : DetailViewModel
-    lateinit var imageView : ImageView
-    lateinit var textView: TextView
+    private lateinit var detailViewModel : DetailViewModel
+    private lateinit var imageView : ImageView
+    private lateinit var textView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)

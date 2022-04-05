@@ -9,12 +9,13 @@ import com.himanshu.imageapi.models.Images
 import com.himanshu.imageapi.models.ImagesItem
 
 class ImagesRepository(private val imagesApiInterface: ImagesApiInterface) {
+    private val limit =10
     private val imagesLiveData = MutableLiveData<ArrayList<ImagesItem>>()
     val images : LiveData<ArrayList<ImagesItem>>
     get() = imagesLiveData
 
     suspend fun getImages(page:Int){
-        val response =imagesApiInterface.getData(page)
+        val response =imagesApiInterface.getData(page,limit)
         if(response.body() != null){
             imagesLiveData.postValue(response.body())
         }
