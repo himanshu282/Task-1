@@ -16,7 +16,7 @@ class ImagesRepository(private val imagesApiInterface: ImagesApiInterface) {
 
     suspend fun getImages(page:Int){
         val response =imagesApiInterface.getData(page,limit)
-        if(response.body() != null){
+        if( response.body() != null){
             imagesLiveData.postValue(response.body())
         }
     }

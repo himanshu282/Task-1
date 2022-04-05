@@ -1,7 +1,7 @@
 package com.himanshu.imageapi.models
 
 data class ImagesItem(
-    val author: String,
+    var author: String,
     val download_url: String,
     val height: Int,
     val id: String,

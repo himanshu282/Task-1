@@ -40,19 +40,6 @@
             app:layout_constraintStart_toEndOf="@+id/demo_image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/chosen_one_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@id/demo_image"
-            app:layout_constraintTop_toBottomOf="@id/text_view"
-            android:visibility="invisible"
-            />
 
         <View
             android:layout_width="match_parent"

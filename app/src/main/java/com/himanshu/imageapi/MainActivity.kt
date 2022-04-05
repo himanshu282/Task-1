@@ -1,5 +1,6 @@
 package com.himanshu.imageapi
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -20,7 +21,10 @@ import com.himanshu.imageapi.viewmodel.MainViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
+    var last=1
+    var secondLast=1
     private lateinit var newRecyclerView: RecyclerView
+    var teller:Boolean=true
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private var isLoading: Boolean = true
     private lateinit var layoutManager : LinearLayoutManager
@@ -46,7 +50,15 @@ class MainActivity : AppCompatActivity() {
 
         timeoutHandler =  Handler()
         interactionTimeoutRunnable =  Runnable {
-            Toast.makeText(this,"User is inactive since 5 seconds",Toast.LENGTH_SHORT).show()
+            if(teller)
+            {
+                last = layoutManager.findLastCompletelyVisibleItemPosition()
+                secondLast = layoutManager.findLastCompletelyVisibleItemPosition()-1
+                teller=false
+            }
+
+           // Toast.makeText(this, "$secondLast    $last",Toast.LENGTH_SHORT).show()
+            recyclerViewAdapter.setText(secondLast,last)
         }
         startHandler()
     }
@@ -72,7 +84,14 @@ class MainActivity : AppCompatActivity() {
         newRecyclerView= findViewById(R.id.recycler_view)
         layoutManager= LinearLayoutManager(this)
         newRecyclerView.layoutManager = layoutManager
-        recyclerViewAdapter = RecyclerViewAdapter()
+        recyclerViewAdapter = RecyclerViewAdapter(object:CallBack{
+            override fun called(id: String) {
+                val intent = Intent(this@MainActivity,ImageDetailActivity::class.java)
+                intent.putExtra("id",id)
+                startActivity(intent)
+            }
+
+        })
         newRecyclerView.adapter = recyclerViewAdapter
         newRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -96,6 +115,8 @@ class MainActivity : AppCompatActivity() {
                 super.onScrollStateChanged(recyclerView, newState)
                 val lastItem = layoutManager.findLastCompletelyVisibleItemPosition()
                 val secondLastItem = layoutManager.findLastCompletelyVisibleItemPosition()-1
+                last=lastItem
+                secondLast=secondLastItem
                 Log.d("last", "onScrollStateChanged: $lastItem $secondLastItem")
             }
         })
